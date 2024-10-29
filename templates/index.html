@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phân bổ công việc DISC</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+
+</head>
+<body class="bodygstyle">
+    <div class="max-w-md w-full mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl" x-data="taskAllocation()">
+        <div class="p-8">
+            <h1 class="text-3xl font-bold mb-6 text-center text-indigo-600">Phân bổ công việc DISC</h1>
+            
+            <!-- DISC Introduction Button -->
+            <button @click="showDISCIntro = !showDISCIntro" class="mb-4 bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-600 transition duration-300">
+                Giới thiệu về DISC
+            </button>
+
+            <!-- DISC Introduction Section -->
+            <div x-show="showDISCIntro" x-transition class="mb-6 p-4 bg-indigo-100 rounded-md">
+                <h2 class="text-xl font-semibold mb-2 text-indigo-800">Mô hình DISC là gì?</h2>
+                <p class="mb-2">DISC là một mô hình đánh giá hành vi được phát triển bởi William Moulton Marston. Nó chia hành vi con người thành bốn loại chính:</p>
+                <ul class="list-disc pl-5 mb-2">
+                    <li><strong  class="text-disc-d">D (Dominance - Thống trị):</strong> Quyết đoán, tập trung vào kết quả</li>
+                    <li><strong  class="text-disc-i">I (Influence - Ảnh hưởng):</strong> Nhiệt tình, giao tiếp tốt</li>
+                    <li><strong  class="text-disc-s">S (Steadiness - Ổn định):</strong> Kiên nhẫn, đáng tin cậy</li>
+                    <li><strong  class="text-disc-c">C (Conscientiousness - Cẩn trọng):</strong> Chính xác, phân tích</li>
+                </ul>
+                <p>Hiểu biết về DISC giúp tối ưu hóa việc phân công nhiệm vụ dựa trên điểm mạnh của mỗi cá nhân. <a href="https://base.vn/blog/disc-la-gi/#2_Cach_doc_bieu_do_DISC">Tìm hiểu thêm về DISC.</a></p>
+            </div>
+
+            <!-- Existing form elements -->
+            <div class="mb-4">
+                <label for="name" class="block text-sm font-medium text-gray-700">Tên</label>
+                <input type="text" id="name" x-model="name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">Điểm tính cách DISC (0-100)</label>
+                <div class="grid grid-cols-2 gap-4 mt-2">
+                    <div>
+                        <label for="d-score" class="block text-xs font-medium text-gray-500">Dominance (D)</label>
+                        <input type="number" id="d-score" x-model="discScores.D" min="0" max="100" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+                    <div>
+                        <label for="i-score" class="block text-xs font-medium text-gray-500">Influence (I)</label>
+                        <input type="number" id="i-score" x-model="discScores.I" min="0" max="100" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+                    <div>
+                        <label for="s-score" class="block text-xs font-medium text-gray-500">Steadiness (S)</label>
+                        <input type="number" id="s-score" x-model="discScores.S" min="0" max="100" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+                    <div>
+                        <label for="c-score" class="block text-xs font-medium text-gray-500">Conscientiousness (C)</label>
+                        <input type="number" id="c-score" x-model="discScores.C" min="0" max="100" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label for="task" class="block text-sm font-medium text-gray-700">Nhiệm vụ</label>
+                <input type="text" id="task" x-model="task" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+            </div>
+
+            <div class="mb-6">
+                <label for="deadline" class="block text-sm font-medium text-gray-700">Deadline</label>
+                <input type="datetime-local" id="deadline" x-model="deadline" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+            </div>
+
+            <div>
+                <button @click="allocateTask" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <svg x-show="loading" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                    </svg>
+                    <span x-text="loading ? 'Đang xử lý...' : 'Phân bổ công việc'"></span>
+                </button>
+            </div>
+
+            <div x-show="allocation" x-cloak class="mt-8 p-4 bg-gray-50 rounded-md">
+                <h2 class="text-lg font-semibold mb-2">Kết quả phân bổ công việc:</h2>
+                <pre id="allocation" class="whitespace-pre-wrap text-sm" x-text="allocation"></pre>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

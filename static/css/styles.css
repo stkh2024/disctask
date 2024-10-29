@@ -1,0 +1,13 @@
+.bodygstyle {
+    background-color: rgb(173, 230, 192); /* Đổi màu nền thành màu xanh nhạt */
+}
+
+
+.bg-disc-d { background-color: #FF6B6B; }
+.bg-disc-i { background-color: #FFD93D; }
+.bg-disc-s { background-color: #6BCB77; }
+.bg-disc-c { background-color: #4D96FF; }
+.text-disc-d { color: #FF6B6B; }
+.text-disc-i { color: #ffcc00; }
+.text-disc-s { color: #6BCB77; }
+.text-disc-c { color: #4D96FF; }

@@ -1,0 +1,12 @@
+Hãy phân phối công việc theo tính cách DISC cho:
+Tên: {tên người}
+Tính cách: {tính cách}
+Nhiệm vụ: {tên nhiệm vụ}
+Deadline: {deadline}
+
+Yêu cầu:
+1. Phân tích tính phù hợp của nhiệm vụ với tính cách DISC.
+2. Đề xuất cách tiếp cận nhiệm vụ phù hợp với tính cách.
+3. Liệt kê các bước cụ thể để hoàn thành nhiệm vụ.
+4. Đề xuất các nguồn lực hoặc công cụ hỗ trợ.
+5. Xác định các thách thức tiềm ẩn và cách khắc phục.
